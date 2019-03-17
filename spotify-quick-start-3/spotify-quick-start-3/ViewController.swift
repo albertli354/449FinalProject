@@ -2,17 +2,16 @@ import UIKit
 
 class ViewController: UIViewController, SPTSessionManagerDelegate, SPTAppRemoteDelegate, SPTAppRemotePlayerStateDelegate {
     
+    // My Personal Spotify Client Id and Redirect URI for this app
     fileprivate let SpotifyClientID = "1e9baa3ac22043ee912168fd2979d122"
     fileprivate let SpotifyRedirectURI = URL(string: "spotify-quick-start-3://spotify-login-callback")!
     
+    // Plays a song so that spotify can connect and uses my token swap url's
     lazy var configuration: SPTConfiguration = {
         let configuration = SPTConfiguration(clientID: SpotifyClientID, redirectURL: SpotifyRedirectURI)
         // Set the playURI to a non-nil value so that Spotify plays music after authenticating and App Remote can connect
         // otherwise another app switch will be required
         configuration.playURI = ""
-        
-        // Set these url's to your backend which contains the secret to exchange for an access token
-        // You can use the provided ruby script spotify_token_swap.rb for testing purposes
         configuration.tokenSwapURL = URL(string: "https://spotify-quick-start-3.herokuapp.com/api/token")
         configuration.tokenRefreshURL = URL(string: "https://spotify-quick-start-3.herokuapp.com/api/refresh_token")
         return configuration
@@ -31,7 +30,9 @@ class ViewController: UIViewController, SPTSessionManagerDelegate, SPTAppRemoteD
     
     fileprivate var lastPlayerState: SPTAppRemotePlayerState?
     
-    // MARK: - Subviews
+    // ALL THE BUTTONSSSSSSS AND LABELLLLSSS
+    
+    @IBOutlet weak var albumArtwork: UIImageView!
     
     fileprivate lazy var connectLabel: UILabel = {
         let label = UILabel()
@@ -41,14 +42,24 @@ class ViewController: UIViewController, SPTSessionManagerDelegate, SPTAppRemoteD
     }()
     
     fileprivate lazy var connectButton = ConnectButton(title: "CONNECT")
-    fileprivate lazy var disconnectButton = ConnectButton(title: "DISCONNECT")
+    //fileprivate lazy var disconnectButton = ConnectButton(title: "DISCONNECT")
     
+    /*
     fileprivate lazy var pauseAndPlayButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(didTapPauseOrPlay), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    // ********************** MY ADDED SKIP BUTTON ***********************************
+    fileprivate lazy var skipButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(didTapSkipButton), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    // *******************************************************************************
     
     fileprivate lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -63,6 +74,7 @@ class ViewController: UIViewController, SPTSessionManagerDelegate, SPTAppRemoteD
         trackLabel.textAlignment = .center
         return trackLabel
     }()
+    */
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,21 +82,27 @@ class ViewController: UIViewController, SPTSessionManagerDelegate, SPTAppRemoteD
         
         view.addSubview(connectLabel)
         view.addSubview(connectButton)
+        /*
         view.addSubview(disconnectButton)
         view.addSubview(imageView)
         view.addSubview(trackLabel)
         view.addSubview(pauseAndPlayButton)
-        
+        // My added skip button
+        view.addSubview(skipButton)
+        */
         let constant: CGFloat = 16.0
-        
+ 
         connectButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         connectButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
+        /*
         disconnectButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         disconnectButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
+        */
         
         connectLabel.centerXAnchor.constraint(equalTo: connectButton.centerXAnchor).isActive = true
         connectLabel.bottomAnchor.constraint(equalTo: connectButton.topAnchor, constant: -constant).isActive = true
+        /*
         
         imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 64).isActive = true
@@ -100,12 +118,21 @@ class ViewController: UIViewController, SPTSessionManagerDelegate, SPTAppRemoteD
         pauseAndPlayButton.heightAnchor.constraint(equalToConstant: 50)
         pauseAndPlayButton.sizeToFit()
         
+        // Figure out how to position this button bro
+        skipButton.frame = CGRect(x: 30, y: 30, width: 5, height: 5)
+        skipButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        skipButton.topAnchor.constraint(equalTo: trackLabel.bottomAnchor, constant: constant).isActive = true
+        skipButton.widthAnchor.constraint(equalToConstant: 50)
+        skipButton.heightAnchor.constraint(equalToConstant: 50)
+        skipButton.sizeToFit()
+        */
+        
         connectButton.sizeToFit()
-        disconnectButton.sizeToFit()
+        // disconnectButton.sizeToFit()
         
         connectButton.addTarget(self, action: #selector(didTapConnect(_:)), for: .touchUpInside)
-        disconnectButton.addTarget(self, action: #selector(didTapDisconnect(_:)), for: .touchUpInside)
-        
+        // disconnectButton.addTarget(self, action: #selector(didTapDisconnect(_:)), for: .touchUpInside)
+ 
         updateViewBasedOnConnected()
     }
     
@@ -114,29 +141,40 @@ class ViewController: UIViewController, SPTSessionManagerDelegate, SPTAppRemoteD
             fetchArtwork(for: playerState.track)
         }
         lastPlayerState = playerState
-        trackLabel.text = playerState.track.name
+        //trackLabel.text = playerState.track.name
         if playerState.isPaused {
-            pauseAndPlayButton.setImage(UIImage(named: "play"), for: .normal)
+            //pauseAndPlayButton.setImage(UIImage(named: "play"), for: .normal)
         } else {
-            pauseAndPlayButton.setImage(UIImage(named: "pause"), for: .normal)
+            //pauseAndPlayButton.setImage(UIImage(named: "pause"), for: .normal)
         }
     }
     
     func updateViewBasedOnConnected() {
         if (appRemote.isConnected) {
+            albumArtwork.isHidden = false
+            /*
             connectButton.isHidden = true
             disconnectButton.isHidden = false
             connectLabel.isHidden = true
             imageView.isHidden = false
             trackLabel.isHidden = false
             pauseAndPlayButton.isHidden = false
+            // My skip button
+            skipButton.isHidden = false
+            */
         } else {
-            disconnectButton.isHidden = true
+            //let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+            //let VC = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            //self.navigationController?.pushViewController(VC, animated: true)
+            //disconnectButton.isHidden = true
             connectButton.isHidden = false
             connectLabel.isHidden = false
-            imageView.isHidden = true
-            trackLabel.isHidden = true
-            pauseAndPlayButton.isHidden = true
+            albumArtwork.isHidden = true
+            //imageView.isHidden = true
+            //trackLabel.isHidden = true
+            //pauseAndPlayButton.isHidden = true
+            // My skip button
+            //skipButton.isHidden = true
         }
     }
     
@@ -145,7 +183,7 @@ class ViewController: UIViewController, SPTSessionManagerDelegate, SPTAppRemoteD
             if let error = error {
                 print("Error fetching track image: " + error.localizedDescription)
             } else if let image = image as? UIImage {
-                self?.imageView.image = image
+                self?.albumArtwork.image = image
             }
         })
     }
@@ -170,26 +208,20 @@ class ViewController: UIViewController, SPTSessionManagerDelegate, SPTAppRemoteD
         }
     }
     
+    
     @objc func didTapDisconnect(_ button: UIButton) {
         if (appRemote.isConnected) {
             appRemote.disconnect()
         }
     }
     
+    
     @objc func didTapConnect(_ button: UIButton) {
-        /*
-         Scopes let you specify exactly what types of data your application wants to
-         access, and the set of scopes you pass in your call determines what access
-         permissions the user is asked to grant.
-         For more information, see https://developer.spotify.com/web-api/using-scopes/.
-         */
         let scope: SPTScope = [.appRemoteControl, .playlistReadPrivate]
         
         if #available(iOS 11, *) {
-            // Use this on iOS 11 and above to take advantage of SFAuthenticationSession
             sessionManager.initiateSession(with: scope, options: .clientOnly)
         } else {
-            // Use this on iOS versions < 11 to use SFSafariViewController
             sessionManager.initiateSession(with: scope, options: .clientOnly, presenting: self)
         }
     }
