@@ -12,12 +12,12 @@ import MultipeerConnectivity
 class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDataSource, UITableViewDelegate {
   
 
-  let songs = [Song("Mr. Blue Sky", "spotify:track:2RlgNHKcydI9sayD2Df2xp", isSelected: false),
-               Song("Come a Little Bit Closer", "spotify:track:252YuUdUaC5OojaBU0H1CP", isSelected: false),
-               Song("Bohemian Rhapsody", "spotify:track:7tFiyTwD0nx5a1eklYtX2J", isSelected: false)]
+  var songs = [Song("Mr. Blue Sky", "spotify:track:2RlgNHKcydI9sayD2Df2xp"),
+               Song("Come a Little Bit Closer", "spotify:track:252YuUdUaC5OojaBU0H1CP"),
+               Song("Bohemian Rhapsody", "spotify:track:7tFiyTwD0nx5a1eklYtX2J")]
   var session: Session!
-  
-  @IBOutlet weak var messageField: UITextField!
+  var results = false
+
   @IBOutlet weak var sendButton: UIButton!
   @IBOutlet weak var tableView: UITableView!
   
@@ -29,12 +29,13 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
       NSLog("Session is nil when it shouldn't be")
     }
     session.delegate = self
+    tableView.allowsSelection = true
     tableView.allowsMultipleSelection = true
     tableView.dataSource = self
     tableView.delegate = self
   }
   
-  func sendMessage() {
+  func sendPoll() {
     if session.mcSession.connectedPeers.count > 0 {
       // send list of songs
       do {
@@ -42,7 +43,14 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
         let jsonData =  try JSONEncoder().encode(selectedSongs)
 //        let jsonData = try NSKeyedArchiver.archivedData(withRootObject: jsonArr, requiringSecureCoding: true)
         do {
+          // send the song list
           try session.mcSession.send(jsonData, toPeers: session.mcSession.connectedPeers, with: .reliable)
+          // show only available songs and votes
+          songs = selectedSongs
+          tableView.allowsMultipleSelection = false
+          tableView.allowsSelection = false
+          results = true
+          tableView.reloadData()
         } catch let error as NSError {
           let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
           ac.addAction(UIAlertAction(title: "OK", style: .default))
@@ -61,7 +69,17 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
   }
   
   func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-    
+    if let message = String(data: data, encoding: .utf8) {
+      let votePrefix = "Vote: "
+      if message.hasPrefix(votePrefix) {
+        var title = message.substring(from: votePrefix.endIndex)
+        var song = songs.filter { return $0.title == title }.first!
+        song.votes = song.votes + 1
+        DispatchQueue.main.async { [unowned self] in
+          self.tableView.reloadData()
+        }
+      }
+
   }
   
   func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -80,7 +98,7 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
   @IBAction func buttonPressed(_ sender: UIButton) {
     switch sender {
     case sender:
-      sendMessage()
+      sendPoll()
     default:
       NSLog("Unknown button pressed")
     }
@@ -93,6 +111,7 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath) as! SongTableViewCell
     cell.song = songs[indexPath.row]
+    cell.voteLabel.isHidden = !results
     return cell
   }
   

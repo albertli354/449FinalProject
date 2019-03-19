@@ -12,9 +12,12 @@ class SongTableViewCell: UITableViewCell {
 
   @IBOutlet weak var songLabel: UILabel!
   @IBOutlet weak var songImageView: UIImageView!
+  @IBOutlet weak var voteLabel: UILabel!
+  
   var songData : Song? {
     didSet {
-      songLabel.text = songData?.title
+      songLabel.text = songData!.title
+      voteLabel.text = String(songData!.votes)
     }
   }
   
