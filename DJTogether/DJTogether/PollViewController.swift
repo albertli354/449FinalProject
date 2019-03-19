@@ -33,8 +33,8 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath)
-    cell.textLabel?.text = songs[indexPath.row].title
+    let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath) as! SongTableViewCell
+    cell.songData = songs[indexPath.row]
     return cell
   }
   
