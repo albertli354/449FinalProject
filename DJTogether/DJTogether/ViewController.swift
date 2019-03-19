@@ -93,6 +93,8 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
     if session == nil {
       session = Session(self)
     }
+    createPartyButton.layer.cornerRadius = 10
+    joinPartyButton.layer.cornerRadius = 10
   }
   
   func startHosting(action: UIAlertAction!) {
