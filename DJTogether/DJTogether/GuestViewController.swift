@@ -13,7 +13,7 @@ class GuestViewController: UIViewController, MCSessionDelegate {
   
   var songs : [Song] = []
   var session: Session!
-  var song : Song?
+  var song = Song("Mr. Blue Sky", "spotify:track:2RlgNHKcydI9sayD2Df2xp", "mr_blue_sky")
   @IBOutlet weak var messageField: UILabel!
   
   @IBOutlet weak var albumView: UIImageView!
@@ -25,10 +25,8 @@ class GuestViewController: UIViewController, MCSessionDelegate {
       NSLog("Session is nil when it shouldn't be")
     }
     session.delegate = self
-    if let currentSong = song {
-      albumView.image = UIImage(named: currentSong.img)
-      messageField.text = currentSong.title
-    }
+    albumView.image = UIImage(named: song.img)
+    messageField.text = song.title
       // Do any additional setup after loading the view.
   }
     
@@ -41,8 +39,8 @@ class GuestViewController: UIViewController, MCSessionDelegate {
     if let song = song {
       self.song = song
       DispatchQueue.main.async { [unowned self] in
-        self.messageField.text = self.song!.title
-        self.albumView.image = UIImage(named: self.song!.img)
+        self.messageField.text = self.song.title
+        self.albumView.image = UIImage(named: self.song.img)
       }
     } else {
       let songs: [Song]? = try? JSONDecoder().decode([Song].self, from: data)

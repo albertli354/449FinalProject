@@ -437,6 +437,7 @@
         <image name="semiblack" width="1371" height="2048"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="zKj-dn-CXZ"/>
         <segue reference="wgT-v5-ayR"/>
         <segue reference="ioa-uA-kol"/>
     </inferredMetricsTieBreakers>
