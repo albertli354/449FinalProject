@@ -52,10 +52,11 @@
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "2">
-      <PathRunnable
-         runnableDebuggingMode = "0"
-         FilePath = "/&lt;placeholder&gt;">
-      </PathRunnable>
+      <RemoteRunnable
+         runnableDebuggingMode = "1"
+         BundleIdentifier = "edu.uw.ischool.info449.DJ.DJTogether"
+         RemotePath = "/Users/albert/Library/Developer/CoreSimulator/Devices/E3E62A3B-7001-41E4-9F78-CAAA48730C2A/data/Containers/Bundle/Application/6E8CDEB8-C5AA-4D22-ABBD-8C08587687B4/DJTogether.app">
+      </RemoteRunnable>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
