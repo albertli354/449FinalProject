@@ -10,8 +10,11 @@ import UIKit
 import MultipeerConnectivity
 
 class GuestViewController: UIViewController, MCSessionDelegate {
+  
   var session: Session!
   @IBOutlet weak var messageField: UILabel!
+  
+
   
   override func viewDidLoad() {
     super.viewDidLoad()
