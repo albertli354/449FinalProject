@@ -134,4 +134,14 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
     songs[indexPath.row].isSelected = false
   }
 
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    switch segue.identifier! {
+    case "pollToHost":
+      let destination = segue.destination as! HostViewController
+      destination.session = self.session
+      NSLog("Segue to Host Page")
+    default:
+      NSLog("Unknown segue identifier: \(segue.identifier!)")
+    }
+  }
 }

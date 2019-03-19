@@ -185,6 +185,9 @@
                                 <rect key="frame" x="16" y="573" width="343" height="74"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Close Poll"/>
+                                <connections>
+                                    <action selector="buttonPressed:" destination="Lwv-rC-J2b" eventType="touchUpInside" id="ozt-gB-zqJ"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -289,6 +292,7 @@
                     <connections>
                         <outlet property="submitButton" destination="3R3-Ut-MeW" id="CTH-xL-21J"/>
                         <outlet property="tableView" destination="oLi-Bi-mKl" id="ZZr-Og-mlp"/>
+                        <segue destination="UBM-fQ-dJn" kind="presentation" identifier="pollToGuest" id="wgT-v5-ayR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jpu-II-TZk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -297,6 +301,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="wgT-v5-ayR"/>
         <segue reference="ioa-uA-kol"/>
     </inferredMetricsTieBreakers>
 </document>

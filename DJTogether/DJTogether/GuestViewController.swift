@@ -73,10 +73,7 @@ class GuestViewController: UIViewController, MCSessionDelegate {
       let destination = segue.destination as! PollViewController
       destination.session = self.session
       destination.songs = self.songs
-      NSLog("Segue to Question Page")
-    case "mainToGuest":
-      let destination = segue.destination as! GuestViewController
-      destination.session = session
+      NSLog("Segue to Guest Poll Page")
     default:
       NSLog("Unknown segue identifier: \(segue.identifier!)")
     }
