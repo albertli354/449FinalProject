@@ -13,8 +13,9 @@ class GuestViewController: UIViewController, MCSessionDelegate {
   
   var songs : [Song] = []
   var session: Session!
-  var song = Song("", "")
+  var song : Song?
   @IBOutlet weak var messageField: UILabel!
+  @IBOutlet weak var albumView: UIImageView!
   
 
   
@@ -24,6 +25,10 @@ class GuestViewController: UIViewController, MCSessionDelegate {
       NSLog("Session is nil when it shouldn't be")
     }
     session.delegate = self
+    if let currentSong = song {
+      albumView.image = UIImage(named: currentSong.img)
+      messageField.text = currentSong.title
+    }
       // Do any additional setup after loading the view.
   }
     
@@ -36,7 +41,8 @@ class GuestViewController: UIViewController, MCSessionDelegate {
     if let song = song {
       self.song = song
       DispatchQueue.main.async { [unowned self] in
-        self.messageField.text = self.song.title
+        self.messageField.text = self.song!.title
+        self.albumView.image = UIImage(named: self.song!.img)
       }
     } else {
       let songs: [Song]? = try? JSONDecoder().decode([Song].self, from: data)
@@ -72,6 +78,7 @@ class GuestViewController: UIViewController, MCSessionDelegate {
       let destination = segue.destination as! PollViewController
       destination.session = self.session
       destination.songs = self.songs
+      destination.currentSong = self.song
       NSLog("Segue to Guest Poll Page")
     default:
       NSLog("Unknown segue identifier: \(segue.identifier!)")

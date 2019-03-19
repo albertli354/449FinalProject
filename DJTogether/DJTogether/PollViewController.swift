@@ -14,6 +14,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
   @IBOutlet weak var submitButton: UIButton!
   
   var songs : [Song] = []
+  var currentSong : Song!
   var session: Session!
   var selectedRow = -1
   
@@ -70,6 +71,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
     case "pollToGuest":
       let destination = segue.destination as! GuestViewController
       destination.session = self.session
+      destination.song = self.currentSong
       NSLog("Segue to Guest Page")
     default:
       NSLog("Unknown segue identifier: \(segue.identifier!)")

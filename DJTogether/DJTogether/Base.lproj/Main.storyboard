@@ -314,18 +314,23 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="aint_no_mountain" translatesAutoresizingMaskIntoConstraints="NO" id="79j-ss-BLv">
+                                <rect key="frame" x="16" y="127" width="343" height="309"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <viewLayoutGuide key="safeArea" id="F7Z-r4-xhQ"/>
                     </view>
                     <connections>
+                        <outlet property="albumView" destination="79j-ss-BLv" id="ZsH-lh-TFZ"/>
                         <outlet property="messageField" destination="iJ2-Fh-Rsj" id="Czo-Pb-ZtY"/>
                         <segue destination="0v5-RV-LIU" kind="presentation" identifier="guestToPoll" id="zKj-dn-CXZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wZe-Hy-v3k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="28" y="815"/>
+            <point key="canvasLocation" x="28" y="814.54272863568224"/>
         </scene>
         <!--Poll View Controller-->
         <scene sceneID="juL-C5-H8r">
@@ -409,9 +414,11 @@
     </scenes>
     <resources>
         <image name="DJ_header" width="825" height="465"/>
+        <image name="aint_no_mountain" width="268" height="268"/>
         <image name="semiblack" width="1371" height="2048"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="61B-gS-95I"/>
         <segue reference="zKj-dn-CXZ"/>
         <segue reference="wgT-v5-ayR"/>
         <segue reference="ioa-uA-kol"/>

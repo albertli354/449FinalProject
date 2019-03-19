@@ -18,6 +18,7 @@ class SongTableViewCell: UITableViewCell {
     didSet {
       songLabel.text = songData!.title
       voteLabel.text = String(songData!.votes)
+      songImageView.image = UIImage(named: songData!.img)
     }
   }
   

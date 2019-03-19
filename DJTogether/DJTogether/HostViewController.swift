@@ -10,7 +10,7 @@ import UIKit
 
 class HostViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SPTAppRemotePlayerStateDelegate {
   var session : Session!
-  var selectedSong = Song("", "")
+  var selectedSong = Song("", "", "")
 
     @IBAction func pauseButtonClicked(_ sender: Any) {
         self.appRemote.playerAPI?.play("spotify:track:2gQYziDV5cSTRSqr6akzi5", callback: {(result, error) in
@@ -39,41 +39,42 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
   @IBOutlet weak var createPollButton: UIButton!
   @IBOutlet weak var tableView: UITableView!
-  var songs = [Song("Mr. Blue Sky", "spotify:track:2RlgNHKcydI9sayD2Df2xp"),
-               Song("Come a Little Bit Closer", "spotify:track:252YuUdUaC5OojaBU0H1CP"),
-               Song("Bohemian Rhapsody", "spotify:track:7tFiyTwD0nx5a1eklYtX2J"),
-               Song("Lake Shore Drive", "spotify:track:46MX86XQqYCZRvwPpeq4Gi"),
-               Song("The Chain - 2004 Remaster", "spotify:track:5e9TFTbltYBg2xThimr0rU"),
-               Song("Bring It On Home To Me", "spotify:track:0WVTQp3SOCuMr08jh1jweV"),
-               Song("Southern Nights", "spotify:track:7kv7zBjMtVf0eIJle2VZxn"),
-               Song("My Sweet Lord", "spotify:track:0qdQUeKVyevrbKhAo0ibxS"),
-               Song("Brandy (You're A Fine Girl)", "spotify:track:2BY7ALEWdloFHgQZG6VMLA"),
-               Song("Father And Son", "spotify:track:19slC7k8bsPOAKDjHYLU2W"),
-               Song("Wham Bang Shang-A-Lang", "spotify:track:3qrEG6rQ9Qm72MNWeUKKiU"),
-               Song("Surrender", "spotify:track:2ccUQnjjNWT0rsNnsBpsCA"),
-               Song("Don't Stop Me Now - Remastered", "spotify:track:7hQJA50XrCWABAu5v6QZ4i"),
-               Song("Flashlight", "spotify:track:6Ie9yuocD61v7hrh02moc6"),
-               Song("The Rubberband Man", "spotify:track:13Mzsb8VzRSZ5w3pM48cn6"),
-               Song("Go All The Way", "spotify:track:75GQIYnRaBg7ndHxhfYuQy"),
-               Song("Hooked On A Feeling", "spotify:track:6Ac4NVYYl2U73QiTt11ZKd"),
-               Song("Fooled Around And Fell In Love", "spotify:track:2hE5Lm5XOHR4t3xlhIFauP"),
-               Song("Sprit In The Sky", "spotify:track:1CnTAkLCWL8Uvsr1BDiX8F"),
-               Song("Moonage Daydream - 2012 Remastered Version", "spotify:track:3ziCNz5vq8pEeRZjPElfYR"),
-               Song("I Want You Back", "spotify:track:2OSfEYKhlSsLx6vn4O75RK"),
-               Song("Fox On The Run", "spotify:track:66gG8RzSA2sVQwME8e43wX"),
-               Song("I'm Not In Love", "spotify:track:1A6Kwtsg3JWKU2KWM2udpM"),
-               Song("Come And Get Your Love", "spotify:track:2T43UrvAg60ubJVo5KQ3t7"),
-               Song("Cherry Bomb", "spotify:track:7cdnq45E9aP2XDStHg5vd7"),
-               Song("Escape (The Pina Colada Song)", "spotify:track:5IMtdHjJ1OtkxbGe4zfUxQ"),
-               Song("O-o-h Child - Remastered", "spotify:track:74JdR9aXE6I74oS1BVRsvb"),
-               Song("Ain't No Mountain High Enough - Mono Version", "spotify:track:4njseCGxWeZUksjhrqkleT"),
-               Song("The Boys Are Back In Town", "potify:track:43DeSV93pJPT4lCZaWZ6b1"),
-               Song("Walk Away", "spotify:track:5vE4GSOjOXAEhSyizJD3CX"),
-               Song("Funk #49", "spotify:track:1qqeqeRgn7DFn1LSOA9VBv"),
-               Song("Shake Your Groove Thing", "spotify:track:7hzY0LHz8KdEr1PowHhbdu"),
-               Song("I Will Survive - 1981 Re-recording", "spotify:track:7DD1ojeTUwnW65g5QuZw7X"),
-               Song("Funk Funk", "spotify:track:2ettf7qywhnJuavMxZOsWh"),
-               Song("Joy To The World", "spotify:track:2ymeOsYijJz09LfKw3yM2x")]
+  var songs: [Song] = [Song("Mr. Blue Sky", "spotify:track:2RlgNHKcydI9sayD2Df2xp", "mr_blue_sky"),
+               Song("Come a Little Bit Closer", "spotify:track:252YuUdUaC5OojaBU0H1CP", "come_a_little_bit_closer"),
+               Song("Bohemian Rhapsody", "spotify:track:7tFiyTwD0nx5a1eklYtX2J", "bohemian_rhapsody.jpeg"),
+               Song("Lake Shore Drive", "spotify:track:46MX86XQqYCZRvwPpeq4Gi", "lake_shore_drive"),
+               Song("The Chain - 2004 Remaster", "spotify:track:5e9TFTbltYBg2xThimr0rU",
+                    "the_chain"),
+               Song("Bring It On Home To Me", "spotify:track:0WVTQp3SOCuMr08jh1jweV", "bring_it_on_home_to_me"),
+               Song("Southern Nights", "spotify:track:7kv7zBjMtVf0eIJle2VZxn", "southern_nights"),
+               Song("My Sweet Lord", "spotify:track:0qdQUeKVyevrbKhAo0ibxS", "my_sweet_lord"),
+               Song("Brandy (You're A Fine Girl)", "spotify:track:2BY7ALEWdloFHgQZG6VMLA", "brandy"),
+               Song("Father And Son", "spotify:track:19slC7k8bsPOAKDjHYLU2W", "father_and_son"),
+               Song("Wham Bang Shang-A-Lang", "spotify:track:3qrEG6rQ9Qm72MNWeUKKiU", "wham_bam"),
+               Song("Surrender", "spotify:track:2ccUQnjjNWT0rsNnsBpsCA", "wham_bam"),
+               Song("Don't Stop Me Now - Remastered", "spotify:track:7hQJA50XrCWABAu5v6QZ4i", "don't_stop_me"),
+               Song("Flashlight", "spotify:track:6Ie9yuocD61v7hrh02moc6", "flashlight"),
+               Song("The Rubberband Man", "spotify:track:13Mzsb8VzRSZ5w3pM48cn6", "the_rubberband_man"),
+               Song("Go All The Way", "spotify:track:75GQIYnRaBg7ndHxhfYuQy", "go_all_the_way"),
+               Song("Hooked On A Feeling", "spotify:track:6Ac4NVYYl2U73QiTt11ZKd", "hooked_on_a_feeling"),
+               Song("Fooled Around And Fell In Love", "spotify:track:2hE5Lm5XOHR4t3xlhIFauP", "fooled_around"),
+               Song("Sprit In The Sky", "spotify:track:1CnTAkLCWL8Uvsr1BDiX8F", "spirit"),
+               Song("Moonage Daydream - 2012 Remastered Version", "spotify:track:3ziCNz5vq8pEeRZjPElfYR", "moonage_daydream"),
+               Song("I Want You Back", "spotify:track:2OSfEYKhlSsLx6vn4O75RK", "i_want_you_back"),
+               Song("Fox On The Run", "spotify:track:66gG8RzSA2sVQwME8e43wX", "fox_on_the_run"),
+               Song("I'm Not In Love", "spotify:track:1A6Kwtsg3JWKU2KWM2udpM", "not_in_love"),
+               Song("Come And Get Your Love", "spotify:track:2T43UrvAg60ubJVo5KQ3t7", "come_and_get_your_love"),
+               Song("Cherry Bomb", "spotify:track:7cdnq45E9aP2XDStHg5vd7", "cherry_bomb"),
+               Song("Escape (The Pina Colada Song)", "spotify:track:5IMtdHjJ1OtkxbGe4zfUxQ", "escape_pina_colada"),
+               Song("O-o-h Child - Remastered", "spotify:track:74JdR9aXE6I74oS1BVRsvb", "o-o-h_child"),
+               Song("Ain't No Mountain High Enough - Mono Version", "spotify:track:4njseCGxWeZUksjhrqkleT", "aint_no_mountain"),
+               Song("The Boys Are Back In Town", "potify:track:43DeSV93pJPT4lCZaWZ6b1", "the_boys"),
+               Song("Walk Away", "spotify:track:5vE4GSOjOXAEhSyizJD3CX", "walk_away"),
+               Song("Funk #49", "spotify:track:1qqeqeRgn7DFn1LSOA9VBv", "walk_away"),
+               Song("Shake Your Groove Thing", "spotify:track:7hzY0LHz8KdEr1PowHhbdu", "shake_your"),
+               Song("I Will Survive - 1981 Re-recording", "spotify:track:7DD1ojeTUwnW65g5QuZw7X", "i_will_survive"),
+               Song("Funk Funk", "spotify:track:2ettf7qywhnJuavMxZOsWh", "funk_funk"),
+               Song("Joy To The World", "spotify:track:2ymeOsYijJz09LfKw3yM2x", "joy_to_the_world")]
 
 
     override func viewDidLoad() {
