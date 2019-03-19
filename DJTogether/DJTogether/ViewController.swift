@@ -9,7 +9,63 @@
 import UIKit
 import MultipeerConnectivity
 
-class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
+class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate, SPTSessionManagerDelegate, SPTAppRemoteDelegate, SPTAppRemotePlayerStateDelegate {
+    
+    lazy var configuration = SPTConfiguration(
+        clientID: SpotifyClientID,
+        redirectURL: SpotifyRedirectURL
+    )
+    
+    lazy var sessionManager: SPTSessionManager = {
+        if let tokenSwapURL = URL(string: "https://djtogether.herokuapp.com/api/token"),
+            let tokenRefreshURL = URL(string: "https://djtogether.herokuapp.com/api/refresh_token") {
+            self.configuration.tokenSwapURL = tokenSwapURL
+            self.configuration.tokenRefreshURL = tokenRefreshURL
+            self.configuration.playURI = "spotify:track:2RlgNHKcydI9sayD2Df2xp"
+        }
+        let manager = SPTSessionManager(configuration: self.configuration, delegate: self)
+        return manager
+    }()
+    
+    lazy var appRemote: SPTAppRemote = {
+        let appRemote = SPTAppRemote(configuration: configuration, logLevel: .debug)
+        appRemote.delegate = self
+        return appRemote
+    }()
+    
+    func sessionManager(manager: SPTSessionManager, didInitiate session: SPTSession) {
+        self.appRemote.connectionParameters.accessToken = session.accessToken
+        self.appRemote.connect()
+    }
+    
+    func sessionManager(manager: SPTSessionManager, didFailWith error: Error) {
+        print(error)
+    }
+    
+    func sessionManager(manager: SPTSessionManager, didRenew session: SPTSession) {
+        print(session)
+    }
+    
+    func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
+        print("connected")
+    }
+    
+    func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
+        print("disconnected")
+    }
+    
+    func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
+        print("failed")
+    }
+    
+    func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
+        print("state changed")
+    }
+    
+    
+    
+    
+    
   var session: Session!
 
   @IBOutlet weak var createPartyButton: UIButton!
@@ -53,6 +109,12 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
   @IBAction func button_pressed(_ sender: UIButton) {
     switch sender {
     case createPartyButton:
+        let scope: SPTScope = [.appRemoteControl, .playlistReadPrivate]
+        if #available(iOS 11, *) {
+            sessionManager.initiateSession(with: scope, options: .clientOnly)
+        } else {
+            sessionManager.initiateSession(with: scope, options: .clientOnly, presenting: self)
+        }
       startHosting(action: UIAlertAction())
     case joinPartyButton:
       joinSession(action: UIAlertAction())

@@ -9,18 +9,33 @@
 import UIKit
 import CoreData
 
+let SpotifyClientID = "e860f5e2d489412b844dc84ca1f0bd86"
+let SpotifyRedirectURL = URL(string: "dj-together://spotify-login-callback")!
+
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate, SPTAppRemoteDelegate, SPTAppRemotePlayerStateDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
+    
+    func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
+        print("connected")
+    }
+    
+
+    
+    func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
+        print("fail")
+    }
+    
+    func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
+        print("error")
+    }
+    
   var window: UIWindow?
-  
-  let SpotifyClientID = "e860f5e2d489412b844dc84ca1f0bd86"
-  let SpotifyRedirectURL = URL(string: "dj-together://spotify-login-callback")!
-  
+
   lazy var configuration = SPTConfiguration(
     clientID: SpotifyClientID,
     redirectURL: SpotifyRedirectURL
   )
-  
+  /*
   lazy var sessionManager: SPTSessionManager = {
     if let tokenSwapURL = URL(string: "https://djtogether.herokuapp.com/api/token"),
       let tokenRefreshURL = URL(string: "https://djtogether.herokuapp.com/api/refresh_token") {
@@ -31,25 +46,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     let manager = SPTSessionManager(configuration: self.configuration, delegate: self)
     return manager
   }()
-  
+  */
   lazy var appRemote: SPTAppRemote = {
     let appRemote = SPTAppRemote(configuration: configuration, logLevel: .debug)
     appRemote.delegate = self
     return appRemote
   }()
-  
+    
+    class var sharedInstance: AppDelegate {
+        get {
+            return UIApplication.shared.delegate as! AppDelegate
+        }
+    }
+  /*
+/*
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     
     return true
   }
-  class var sharedInstance: AppDelegate {
-    get {
-      return UIApplication.shared.delegate as! AppDelegate
-    }
-  }
-
-  
+  */
+    
   func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
     self.sessionManager.application(app, open: url, options: options)
     
@@ -109,6 +126,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     print("playbackOptions.repeatMode", playerState.playbackOptions.repeatMode.hashValue)
     print("playbackPosition", playerState.playbackPosition)
   }
+ */
   
   func applicationWillResignActive(_ application: UIApplication) {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
