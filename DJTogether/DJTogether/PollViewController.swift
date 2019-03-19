@@ -15,6 +15,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
   
   var songs : [Song] = []
   var session: Session!
+  var selectedRow = -1
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +40,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
     NSLog("You selected cell #\(indexPath.row)!")
     songs[indexPath.row].isSelected = true
     submitButton.isEnabled = true
+    selectedRow = indexPath.row
   }
   
   func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -49,7 +51,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
   
   @IBAction func submit(_ sender: UIButton) {
     do {
-      var song : Song = songs.filter { return $0.isSelected }.first!
+      var song : Song = songs[selectedRow]
       let data = ("Vote: " + song.title).data(using: .utf8)!
       do {
         try session.mcSession.send(data, toPeers: session.mcSession.connectedPeers, with: .reliable)

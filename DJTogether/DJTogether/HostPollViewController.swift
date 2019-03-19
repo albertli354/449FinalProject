@@ -20,6 +20,7 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
 
   @IBOutlet weak var sendButton: UIButton!
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var closePollButton: UIButton!
   
   override func viewDidLoad() {
       super.viewDidLoad()
@@ -34,6 +35,8 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
     tableView.allowsMultipleSelection = true
     tableView.dataSource = self
     tableView.delegate = self
+    sendButton.isHidden = false
+    closePollButton.isHidden = true
   }
   
   func sendPoll() {
@@ -52,6 +55,8 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
           tableView.allowsSelection = false
           results = true
           tableView.reloadData()
+          sendButton.isHidden = true
+          closePollButton.isHidden = false
         } catch let error as NSError {
           let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
           ac.addAction(UIAlertAction(title: "OK", style: .default))
@@ -74,6 +79,7 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
       let votePrefix = "Vote: "
       if message.hasPrefix(votePrefix) {
         var title = message.substring(from: votePrefix.endIndex)
+        NSLog(title)
         var song = songs.filter { return $0.title == title }.first!
         song.votes = song.votes + 1
         DispatchQueue.main.async { [unowned self] in
@@ -100,6 +106,8 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
     switch sender {
     case sendButton:
       sendPoll()
+    case closePollButton:
+      performSegue(withIdentifier: "pollToHost", sender: self)
     default:
       NSLog("Unknown button pressed")
     }

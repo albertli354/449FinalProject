@@ -181,13 +181,20 @@
                                     <action selector="buttonPressed:" destination="Lwv-rC-J2b" eventType="touchUpInside" id="zbJ-vn-ihQ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Iw-sT-HLH">
+                                <rect key="frame" x="16" y="573" width="343" height="74"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Close Poll"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="GJ0-uc-m96"/>
                     </view>
                     <connections>
+                        <outlet property="closePollButton" destination="1Iw-sT-HLH" id="E3W-Ks-EvA"/>
                         <outlet property="sendButton" destination="956-4Q-48I" id="h83-nV-ZTg"/>
                         <outlet property="tableView" destination="joZ-Ou-g3B" id="kbH-le-ROo"/>
+                        <segue destination="IxZ-0D-5cj" kind="presentation" identifier="pollToHost" id="ioa-uA-kol"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kZ8-jY-tJs" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -289,4 +296,7 @@
             <point key="canvasLocation" x="932" y="814.54272863568224"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="ioa-uA-kol"/>
+    </inferredMetricsTieBreakers>
 </document>
