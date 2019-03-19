@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
 
     
     func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
-        print("fail")
+        print("error")
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {

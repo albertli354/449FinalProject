@@ -11,7 +11,12 @@ import UIKit
 class HostViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SPTAppRemotePlayerStateDelegate {
 
     @IBAction func pauseButtonClicked(_ sender: Any) {
-        appRemote.playerAPI?.pause(defaultCallback)
+        self.appRemote.playerAPI?.play("spotify:track:2gQYziDV5cSTRSqr6akzi5", callback: {(result, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        })
+        
     }
     
     fileprivate func presentAlert(title: String, message: String) {
@@ -44,9 +49,6 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     fileprivate var lastPlayerState: SPTAppRemotePlayerState?
     func update(playerState: SPTAppRemotePlayerState) {
-        if lastPlayerState?.track.uri != playerState.track.uri {
-            
-        }
         lastPlayerState = playerState
     }
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
@@ -76,7 +78,6 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     })
 
-        // Do any additional setup after loading the view.
     NSLog("Host view loaded")
     tableView.allowsSelection = true
     tableView.allowsMultipleSelection = false

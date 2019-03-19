@@ -27,11 +27,20 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
         return manager
     }()
     
+    var appRemote: SPTAppRemote {
+        get {
+            return AppDelegate.sharedInstance.appRemote
+        }
+    }
+    
+    /*
     lazy var appRemote: SPTAppRemote = {
         let appRemote = SPTAppRemote(configuration: configuration, logLevel: .debug)
         appRemote.delegate = self
         return appRemote
     }()
+    */
+    
     
     func sessionManager(manager: SPTSessionManager, didInitiate session: SPTSession) {
         self.appRemote.connectionParameters.accessToken = session.accessToken
@@ -47,6 +56,12 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
     }
     
     func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
+        self.appRemote.playerAPI?.delegate = self
+        self.appRemote.playerAPI?.subscribe(toPlayerState: { (result, error) in
+            if let error = error {
+                debugPrint(error.localizedDescription)
+            }
+        })
         print("connected")
     }
     
@@ -73,6 +88,7 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     // Do any additional setup after loading the view, typically from a nib.
     if session == nil {
       session = Session(self)
