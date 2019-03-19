@@ -77,5 +77,4 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
       NSLog("Unknown segue identifier: \(segue.identifier!)")
     }
   }
-
 }

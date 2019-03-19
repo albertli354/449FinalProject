@@ -12,19 +12,6 @@ import CoreData
 let SpotifyClientID = "e56798d148b84dacbcf9b8c06413b975"
 let SpotifyRedirectURL = URL(string: "DJTogether://spotify-login-callback")!
 
-/*
- lazy var sessionManager: SPTSessionManager = {
- if let tokenSwapURL = URL(string: "https://djtogether.herokuapp.com/api/token"),
- let tokenRefreshURL = URL(string: "https://djtogether.herokuapp.com/api/refresh_token") {
- self.configuration.tokenSwapURL = tokenSwapURL
- self.configuration.tokenRefreshURL = tokenRefreshURL
- self.configuration.playURI = ""
- }
- let manager = SPTSessionManager(configuration: self.configuration, delegate: self)
- return manager
- }()
- */
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate, SPTAppRemoteDelegate, SPTAppRemotePlayerStateDelegate {
     var window: UIWindow?
@@ -86,13 +73,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
                 debugPrint(error.localizedDescription)
             }
         })
-        
-        // Want to play a new track?
-        // self.appRemote.playerAPI?.play("spotify:track:13WO20hoD72L0J13WTQWlT", callback: { (result, error) in
-        //     if let error = error {
-        //         print(error.localizedDescription)
-        //     }
-        // })
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
@@ -105,30 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
         print("player state changed")
-        print("isPaused", playerState.isPaused)
-        print("track.uri", playerState.track.uri)
-        print("track.name", playerState.track.name)
-        print("track.imageIdentifier", playerState.track.imageIdentifier)
-        print("track.artist.name", playerState.track.artist.name)
-        print("track.album.name", playerState.track.album.name)
-        print("track.isSaved", playerState.track.isSaved)
-        print("playbackSpeed", playerState.playbackSpeed)
-        print("playbackOptions.isShuffling", playerState.playbackOptions.isShuffling)
-        print("playbackOptions.repeatMode", playerState.playbackOptions.repeatMode.hashValue)
-        print("playbackPosition", playerState.playbackPosition)
     }
-    
-    /*
-     func fetchArtwork(for track:SPTAppRemoteTrack) {
-     appRemote.imageAPI?.fetchImage(forItem: track, with: CGSize.zero, callback: { [weak self] (image, error) in
-     if let error = error {
-     print("Error fetching track image: " + error.localizedDescription)
-     } else if let image = image as? UIImage {
-     albumArtwork = image
-     }
-     })
-     }
-     */
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

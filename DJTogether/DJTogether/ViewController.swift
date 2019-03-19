@@ -11,6 +11,21 @@ import MultipeerConnectivity
 
 class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate, SPTSessionManagerDelegate, SPTAppRemoteDelegate, SPTAppRemotePlayerStateDelegate {
     
+    var session: Session!
+
+    @IBOutlet weak var createPartyButton: UIButton!
+    @IBOutlet weak var joinPartyButton: UIButton!
+  
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if session == nil {
+            session = Session(self)
+        }
+        createPartyButton.layer.cornerRadius = 10
+        joinPartyButton.layer.cornerRadius = 10
+    }
+    
     lazy var configuration = SPTConfiguration(
         clientID: SpotifyClientID,
         redirectURL: SpotifyRedirectURL
@@ -62,49 +77,30 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
         print("state changed")
     }
     
-    
-  var session: Session!
-
-  @IBOutlet weak var createPartyButton: UIButton!
-  @IBOutlet weak var joinPartyButton: UIButton!
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    
-    // Do any additional setup after loading the view, typically from a nib.
-    if session == nil {
-      session = Session(self)
+    func startHosting(action: UIAlertAction!) {
+        session.mcAdvertiserAssistant.start()
+        session.hosting = true
+        performSegue(withIdentifier: "mainToHost", sender: self)
     }
-    createPartyButton.layer.cornerRadius = 10
-    joinPartyButton.layer.cornerRadius = 10
-  }
   
-  func startHosting(action: UIAlertAction!) {
-    session.mcAdvertiserAssistant.start()
-    session.hosting = true
-    performSegue(withIdentifier: "mainToHost", sender: self)
-    
-  }
-  
-  func joinSession(action: UIAlertAction!) {
-    let mcBrowser = MCBrowserViewController(serviceType: session.DJTogetherServiceType, session: session.mcSession)
-    mcBrowser.delegate = self
-    present(mcBrowser, animated: true)
-    session.hosting = false
-  }
-  
-  func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-    // do things
-    switch state {
-    case MCSessionState.connected:
-      NSLog("Connected: \(peerID.displayName)")
-    case MCSessionState.connecting:
-      NSLog("Connecting: \(peerID.displayName)")
-    
-    case MCSessionState.notConnected:
-      NSLog("Not Connected: \(peerID.displayName)")
+    func joinSession(action: UIAlertAction!) {
+        let mcBrowser = MCBrowserViewController(serviceType: session.DJTogetherServiceType, session: session.mcSession)
+        mcBrowser.delegate = self
+        present(mcBrowser, animated: true)
+        session.hosting = false
     }
-  }
+  
+    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+        switch state {
+            case MCSessionState.connected:
+                NSLog("Connected: \(peerID.displayName)")
+            case MCSessionState.connecting:
+                NSLog("Connecting: \(peerID.displayName)")
+            case MCSessionState.notConnected:
+                NSLog("Not Connected: \(peerID.displayName)")
+        }
+    }
     
     func didTapCreateParty() {
         let scope: SPTScope = [.appRemoteControl, .playlistReadPrivate]
@@ -115,56 +111,57 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
         }
     }
   
-  @IBAction func button_pressed(_ sender: UIButton) {
-    switch sender {
-    case createPartyButton:
-        didTapCreateParty()
-      startHosting(action: UIAlertAction())
-    case joinPartyButton:
-      joinSession(action: UIAlertAction())
-    default:
-      NSLog("Unknown button pressed")
+    @IBAction func button_pressed(_ sender: UIButton) {
+        switch sender {
+        case createPartyButton:
+            didTapCreateParty()
+            startHosting(action: UIAlertAction())
+        case joinPartyButton:
+            joinSession(action: UIAlertAction())
+        default:
+            NSLog("Unknown button pressed")
+        }
     }
-  }
   
-  func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-    // if let <var> = <data type>(data)
-    // work with data received
-  }
-  
-  func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
-    // nothing required
-  }
-  
-  func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
-    // nothing required
-  }
-  
-  func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
-    // nothing required
-  }
-  
-  func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
-    dismiss(animated: true)
-    performSegue(withIdentifier: "mainToGuest", sender: self)
-  }
-  
-  func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
-    dismiss(animated: true)
-  }
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    switch segue.identifier! {
-    case "mainToHost":
-      let destination = segue.destination as! HostViewController
-      destination.session = session
-      NSLog("Segue to Host page")
-    case "mainToGuest":
-      let destination = segue.destination as! GuestViewController
-      destination.session = session
-      NSLog("Segue to Guest page")
-    default:
-      NSLog("Unknown segue identifier: \(segue.identifier!)")
+    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+        // if let <var> = <data type>(data)
+        // work with data received
     }
-  }
+  
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+        // nothing required
+    }
+  
+    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+        // nothing required
+    }
+  
+    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+        // nothing required
+    }
+  
+    func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
+        dismiss(animated: true)
+        performSegue(withIdentifier: "mainToGuest", sender: self)
+    }
+  
+    func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
+        dismiss(animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier! {
+        case "mainToHost":
+            let destination = segue.destination as! HostViewController
+            destination.session = session
+            NSLog("Segue to Host page")
+        case "mainToGuest":
+            let destination = segue.destination as! GuestViewController
+            destination.session = session
+            NSLog("Segue to Guest page")
+        default:
+            NSLog("Unknown segue identifier: \(segue.identifier!)")
+        }
+    }
 }
 
