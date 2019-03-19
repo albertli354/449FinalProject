@@ -10,13 +10,29 @@ import UIKit
 
 class HostViewController: UIViewController {
 
-    override func viewDidLoad() {
+  @IBOutlet weak var createPollButton: UIButton!
+  @IBOutlet weak var tableView: UITableView!
+  var songs = [Song("Mr. Blue Sky", "spotify:track:2RlgNHKcydI9sayD2Df2xp"),
+               Song("Come a Little Bit Closer", "spotify:track:252YuUdUaC5OojaBU0H1CP"),
+               Song("Bohemian Rhapsody", "spotify:track:7tFiyTwD0nx5a1eklYtX2J")]
+  
+  override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
     
-
+  @IBAction func buttonPressed(_ sender: UIButton) {
+    switch sender {
+    case createPollButton:
+      performSegue(withIdentifier: "hostToPoll", sender: self)
+    default:
+      NSLog("Unrecognized button pressed")
+    }
+  }
+  
+  
+  
     /*
     // MARK: - Navigation
 
