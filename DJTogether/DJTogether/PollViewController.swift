@@ -52,7 +52,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
   
   @IBAction func submit(_ sender: UIButton) {
     do {
-      var song : Song = songs[selectedRow]
+      let song : Song = songs[selectedRow]
       let data = ("Vote: " + song.title).data(using: .utf8)!
       do {
         try session.mcSession.send(data, toPeers: session.mcSession.connectedPeers, with: .reliable)

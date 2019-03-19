@@ -38,6 +38,11 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
         pauseButton.isHidden = false
         appRemote.playerAPI?.skip(toNext: nil)
     }
+
+    var session : Session!
+  var selectedSong = Song("", "")
+
+ 
     
     
     
@@ -78,7 +83,7 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
                Song("Wham Bang Shang-A-Lang", "spotify:track:3qrEG6rQ9Qm72MNWeUKKiU"),
                Song("Surrender", "spotify:track:2ccUQnjjNWT0rsNnsBpsCA"),
                Song("Don't Stop Me Now - Remastered", "spotify:track:7hQJA50XrCWABAu5v6QZ4i"),
-               Song("Flash Light", "spotify:track:6Ie9yuocD61v7hrh02moc6"),
+               Song("Flashlight", "spotify:track:6Ie9yuocD61v7hrh02moc6"),
                Song("The Rubberband Man", "spotify:track:13Mzsb8VzRSZ5w3pM48cn6"),
                Song("Go All The Way", "spotify:track:75GQIYnRaBg7ndHxhfYuQy"),
                Song("Hooked On A Feeling", "spotify:track:6Ac4NVYYl2U73QiTt11ZKd"),
@@ -100,8 +105,7 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
                Song("I Will Survive - 1981 Re-recording", "spotify:track:7DD1ojeTUwnW65g5QuZw7X"),
                Song("Funk Funk", "spotify:track:2ettf7qywhnJuavMxZOsWh"),
                Song("Joy To The World", "spotify:track:2ymeOsYijJz09LfKw3yM2x")]
-  var session : Session!
-    var selectedSong = Song("", "")
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,6 +150,10 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 print(error.localizedDescription)
             }
         })
+      do {
+        let song = try JSONEncoder().encode(selectedSong)
+        try session.mcSession.send(song, toPeers: session.mcSession.connectedPeers, with: .reliable)
+      } catch {}
     }
 
   @IBAction func buttonPressed(_ sender: UIButton) {
@@ -170,3 +178,4 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
   }
 }
+

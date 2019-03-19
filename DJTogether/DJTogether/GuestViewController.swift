@@ -13,6 +13,7 @@ class GuestViewController: UIViewController, MCSessionDelegate {
   
   var songs : [Song] = []
   var session: Session!
+  var song = Song("", "")
   @IBOutlet weak var messageField: UILabel!
   
 
@@ -31,21 +32,19 @@ class GuestViewController: UIViewController, MCSessionDelegate {
   }
   
   func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-    do {
-      if let songs: [Song] = try JSONDecoder().decode([Song].self, from: data) {
+    let song: Song? = try? JSONDecoder().decode(Song.self, from: data)
+    if let song = song {
+      self.song = song
+      DispatchQueue.main.async { [unowned self] in
+        self.messageField.text = self.song.title
+      }
+    } else {
+      let songs: [Song]? = try? JSONDecoder().decode([Song].self, from: data)
+      if let songs = songs {
         self.songs = songs
         performSegue(withIdentifier: "guestToPoll", sender: self)
-      } else if let message = String(data: data, encoding: .utf8) {
-        DispatchQueue.main.async { [unowned self] in
-          self.messageField.text = message
-        }
       }
-    } catch let error as NSError {
-      let ac = UIAlertController(title: "Receive error", message: error.localizedDescription, preferredStyle: .alert)
-      ac.addAction(UIAlertAction(title: "OK", style: .default))
-      present(ac, animated: true)
     }
-    
   }
   
   func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {

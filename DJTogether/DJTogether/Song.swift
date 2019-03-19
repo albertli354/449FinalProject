@@ -13,16 +13,19 @@ class Song : Codable {
   var URI: String
   var isSelected = false
   var votes: Int
+  var img: String
   
-  init(_ title : String, _ URI : String) {
+  init(_ title : String, _ URI : String, _ img : String) {
     self.title = title
     self.URI = URI
+    self.img = img
     votes = 0
   }
   
-  init(_ title : String, _ URI : String, isSelected : Bool, votes : Int) {
+  init(_ title : String, _ URI : String, _ img : String, isSelected : Bool, votes : Int) {
     self.title = title
     self.URI = URI
+    self.img = img
     self.isSelected = isSelected
     self.votes = votes
   }
