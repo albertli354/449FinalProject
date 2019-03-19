@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HostViewController: UIViewController {
+class HostViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
   @IBOutlet weak var createPollButton: UIButton!
   @IBOutlet weak var tableView: UITableView!
@@ -18,11 +18,29 @@ class HostViewController: UIViewController {
   var session : Session!
   
   override func viewDidLoad() {
-        super.viewDidLoad()
+    super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-    }
-    
+    NSLog("Host view loaded")
+    tableView.allowsSelection = true
+    tableView.allowsMultipleSelection = true
+    tableView.dataSource = self
+    tableView.delegate = self
+  }
+  
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    NSLog("Table view count: " + String(songs.count))
+    return songs.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    NSLog("Table view cell at index: " + String(indexPath.row))
+    let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath) as! SongTableViewCell
+    cell.song = songs[indexPath.row]
+    cell.voteLabel.isHidden = true
+    return cell
+  }
+  
   @IBAction func buttonPressed(_ sender: UIButton) {
     switch sender {
     case createPollButton:
@@ -38,6 +56,7 @@ class HostViewController: UIViewController {
     case "hostToPoll":
       let destination = segue.destination as! HostPollViewController
       destination.session = session
+      destination.songs = songs
       NSLog("Segue to Host Poll page")
     default:
       NSLog("Unknown segue identifier: \(segue.identifier!)")
