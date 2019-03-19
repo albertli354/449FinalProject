@@ -8,8 +8,56 @@
 
 import UIKit
 
-class HostViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class HostViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SPTAppRemotePlayerStateDelegate {
 
+    @IBAction func pauseButtonClicked(_ sender: Any) {
+        appRemote.playerAPI?.pause(defaultCallback)
+    }
+    
+    fileprivate func presentAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func displayError(_ error: NSError?) {
+        if let error = error {
+            presentAlert(title: "Error", message: error.description)
+        }
+    }
+    
+    var defaultCallback: SPTAppRemoteCallback {
+        get {
+            return {[weak self] _, error in
+                if let error = error {
+                    self?.displayError(error as NSError)
+                }
+            }
+        }
+    }
+    
+    var appRemote: SPTAppRemote {
+        get {
+            return AppDelegate.sharedInstance.appRemote
+        }
+    }
+    
+    fileprivate var lastPlayerState: SPTAppRemotePlayerState?
+    func update(playerState: SPTAppRemotePlayerState) {
+        if lastPlayerState?.track.uri != playerState.track.uri {
+            
+        }
+        lastPlayerState = playerState
+    }
+    func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
+        update(playerState: playerState)
+    }
+    
+    
+    
+    
+    
+    
   @IBOutlet weak var createPollButton: UIButton!
   @IBOutlet weak var tableView: UITableView!
   var songs = [Song("Mr. Blue Sky", "spotify:track:2RlgNHKcydI9sayD2Df2xp"),
@@ -48,9 +96,17 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
                Song("Funk Funk", "spotify:track:2ettf7qywhnJuavMxZOsWh"),
                Song("Joy To The World", "spotify:track:2ymeOsYijJz09LfKw3yM2x")]
   var session : Session!
-  
+    var selectedSong = Song("", "")
+
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    self.appRemote.playerAPI?.delegate = self
+    self.appRemote.playerAPI?.subscribe(toPlayerState: { (result, error) in
+        if let error = error {
+            debugPrint(error.localizedDescription)
+        }
+    })
 
         // Do any additional setup after loading the view.
     NSLog("Host view loaded")
@@ -58,6 +114,8 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
     tableView.allowsMultipleSelection = false
     tableView.dataSource = self
     tableView.delegate = self
+    
+    createPollButton.layer.cornerRadius = 10
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -72,7 +130,21 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
     cell.voteLabel.isHidden = true
     return cell
   }
-  
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        NSLog("You selected cell #\(indexPath.row)!")
+        selectedSong = songs[indexPath.row]
+        for song in songs {
+            if (selectedSong.title == song.title) {
+                self.appRemote.playerAPI?.play(song.URI, callback: { (result, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                })
+            }
+        }
+    }
+
   @IBAction func buttonPressed(_ sender: UIButton) {
     switch sender {
     case createPollButton:
