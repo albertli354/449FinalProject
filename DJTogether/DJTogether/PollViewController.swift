@@ -24,6 +24,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
       tableView.delegate = self
       tableView.dataSource = self
       submitButton.isEnabled = false
+        submitButton.layer.cornerRadius = 10
     }
     
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
