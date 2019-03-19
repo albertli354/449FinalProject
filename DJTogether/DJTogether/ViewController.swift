@@ -21,7 +21,7 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
             let tokenRefreshURL = URL(string: "https://djtogether.herokuapp.com/api/refresh_token") {
             self.configuration.tokenSwapURL = tokenSwapURL
             self.configuration.tokenRefreshURL = tokenRefreshURL
-            self.configuration.playURI = ""
+            self.configuration.playURI = "spotify:track:2RlgNHKcydI9sayD2Df2xp"
         }
         let manager = SPTSessionManager(configuration: self.configuration, delegate: self)
         return manager

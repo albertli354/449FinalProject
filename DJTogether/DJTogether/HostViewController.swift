@@ -9,11 +9,11 @@
 import UIKit
 
 class HostViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SPTAppRemotePlayerStateDelegate {
-
   var session : Session!
-  var selectedSong = Song("", "", "")
+  var selectedSong = Song("Mr. Blue Sky", "spotify:track:2RlgNHKcydI9sayD2Df2xp", "mr_blue_sky")
     @IBOutlet weak var pauseButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
+    var currentSelection = IndexPath(row: 0, section: 0)
     
     @IBAction func playButtonPressed(_ sender: Any) {
         playButton.isHidden = true
@@ -31,13 +31,61 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBAction func previousButtonClick(_ sender: Any) {
         playButton.isHidden = true
         pauseButton.isHidden = false
-        appRemote.playerAPI?.skip(toPrevious: nil)
+        for i in 0...songs.count - 1 {
+            if (selectedSong.URI == songs[0].URI) {
+                selectedSong = songs[songs.count - 1]
+                currentSelection = IndexPath(row: songs.count - 1, section: 0)
+                tableView.selectRow(at: currentSelection, animated: true, scrollPosition: UITableView.ScrollPosition.none)
+                self.tableView(tableView, didSelectRowAt: currentSelection)
+                self.appRemote.playerAPI?.play(songs[songs.count - 1].URI, callback: { (result, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                })
+                break
+            } else if (songs[i].URI == selectedSong.URI) {
+                selectedSong = songs[i - 1]
+                currentSelection = IndexPath(row: currentSelection.row - 1, section: currentSelection.section)
+                tableView.selectRow(at: currentSelection, animated: true, scrollPosition: UITableView.ScrollPosition.none)
+                self.tableView(tableView, didSelectRowAt: currentSelection)
+                self.appRemote.playerAPI?.play(songs[i - 1].URI, callback: { (result, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                })
+                break
+            }
+        }
     }
     
     @IBAction func nextButtonClick(_ sender: Any) {
         playButton.isHidden = true
         pauseButton.isHidden = false
-        appRemote.playerAPI?.skip(toNext: nil)
+        for i in 0...songs.count - 1 {
+            if (songs[songs.count - 1].URI == selectedSong.URI) {
+                selectedSong = songs[0]
+                currentSelection = IndexPath(row: 0, section: 0)
+                tableView.selectRow(at: currentSelection, animated: true, scrollPosition: UITableView.ScrollPosition.none)
+                self.tableView(tableView, didSelectRowAt: currentSelection)
+                self.appRemote.playerAPI?.play(songs[0].URI, callback: { (result, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                })
+                break
+            } else if (songs[i].URI == selectedSong.URI) {
+                selectedSong = songs[i + 1]
+                currentSelection = IndexPath(row: currentSelection.row + 1, section: currentSelection.section)
+                tableView.selectRow(at: currentSelection, animated: true, scrollPosition: UITableView.ScrollPosition.none)
+                self.tableView(tableView, didSelectRowAt: currentSelection)
+                self.appRemote.playerAPI?.play(songs[i + 1].URI, callback: { (result, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                })
+                break
+            }
+        }
     }
 
     var appRemote: SPTAppRemote {
@@ -48,13 +96,6 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
     fileprivate var lastPlayerState: SPTAppRemotePlayerState?
     func update(playerState: SPTAppRemotePlayerState) {
         lastPlayerState = playerState
-        /*
-        if playerState.isPaused {
-            pauseOrPlayButton.setBackgroundImage(UIImage(named: "play"), for: .normal)
-        } else {
-            pauseOrPlayButton.setBackgroundImage(UIImage(named: "pause"), for: .normal)
-        }
-        */
     }
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
         update(playerState: playerState)
@@ -101,7 +142,7 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
                Song("Funk Funk", "spotify:track:2ettf7qywhnJuavMxZOsWh", "funk_funk"),
                Song("Joy To The World", "spotify:track:2ymeOsYijJz09LfKw3yM2x", "joy_to_the_world")]
 
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.appRemote.playerAPI?.delegate = self
@@ -111,8 +152,6 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
         })
         
-        appRemote.playerAPI?.pause(nil)
-
     NSLog("Host view loaded")
     tableView.allowsSelection = true
     tableView.allowsMultipleSelection = false
@@ -138,6 +177,7 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         NSLog("You selected cell #\(indexPath.row)!")
         selectedSong = songs[indexPath.row]
+        currentSelection = indexPath
         playButton.isHidden = true
         pauseButton.isHidden = false
         self.appRemote.playerAPI?.play(selectedSong.URI, callback: { (result, error) in
