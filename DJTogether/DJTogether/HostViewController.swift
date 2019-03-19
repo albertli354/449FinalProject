@@ -15,6 +15,7 @@ class HostViewController: UIViewController {
   var songs = [Song("Mr. Blue Sky", "spotify:track:2RlgNHKcydI9sayD2Df2xp"),
                Song("Come a Little Bit Closer", "spotify:track:252YuUdUaC5OojaBU0H1CP"),
                Song("Bohemian Rhapsody", "spotify:track:7tFiyTwD0nx5a1eklYtX2J")]
+  var session : Session!
   
   override func viewDidLoad() {
         super.viewDidLoad()

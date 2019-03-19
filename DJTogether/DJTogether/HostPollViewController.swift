@@ -79,7 +79,7 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
           self.tableView.reloadData()
         }
       }
-
+    }
   }
   
   func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -97,7 +97,7 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
   
   @IBAction func buttonPressed(_ sender: UIButton) {
     switch sender {
-    case sender:
+    case sendButton:
       sendPoll()
     default:
       NSLog("Unknown button pressed")
