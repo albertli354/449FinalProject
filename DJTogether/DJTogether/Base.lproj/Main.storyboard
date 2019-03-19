@@ -389,6 +389,7 @@
         <image name="semiblack" width="1371" height="2048"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="61B-gS-95I"/>
         <segue reference="JTB-4b-bds"/>
         <segue reference="ioa-uA-kol"/>
     </inferredMetricsTieBreakers>
