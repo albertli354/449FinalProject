@@ -33,6 +33,18 @@ class HostViewController: UIViewController {
   }
   
   
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    switch segue.identifier! {
+    case "hostToPoll":
+      let destination = segue.destination as! HostPollViewController
+      destination.session = session
+      NSLog("Segue to Host Poll page")
+    default:
+      NSLog("Unknown segue identifier: \(segue.identifier!)")
+    }
+  }
+  
+  
   
     /*
     // MARK: - Navigation

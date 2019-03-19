@@ -91,10 +91,11 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
     case "mainToHost":
       let destination = segue.destination as! HostViewController
       destination.session = session
-      NSLog("Segue to Question Page")
+      NSLog("Segue to Host page")
     case "mainToGuest":
       let destination = segue.destination as! GuestViewController
       destination.session = session
+      NSLog("Segue to Guest page")
     default:
       NSLog("Unknown segue identifier: \(segue.identifier!)")
     }

@@ -25,6 +25,7 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
       super.viewDidLoad()
 
       // Do any additional setup after loading the view.
+    NSLog("HostPollView loaded")
     if session == nil {
       NSLog("Session is nil when it shouldn't be")
     }

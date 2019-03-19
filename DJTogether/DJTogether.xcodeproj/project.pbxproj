@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3DB7DFB5223C707D004DCEBD /* HostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7DFB4223C707D004DCEBD /* HostViewController.swift */; };
+		3D7822A022405F810061E286 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D78229F22405F810061E286 /* SpotifyiOS.framework */; };
+		3D7822A2224068340061E286 /* SongTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7822A1224068340061E286 /* SongTableViewCell.swift */; };
+		3D7822A422406ED20061E286 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7822A322406ED20061E286 /* Song.swift */; };
+		3D7822A622407C730061E286 /* PollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7822A522407C730061E286 /* PollViewController.swift */; };
+		3D7822A8224087770061E286 /* HostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7822A7224087770061E286 /* HostViewController.swift */; };
+		3DB7DFB5223C707D004DCEBD /* HostPollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7DFB4223C707D004DCEBD /* HostPollViewController.swift */; };
 		3DB7DFB7223C7717004DCEBD /* GuestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7DFB6223C7717004DCEBD /* GuestViewController.swift */; };
 		3DB7DFB9223ED305004DCEBD /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7DFB8223ED305004DCEBD /* SessionModel.swift */; };
 		50EDFCB7222F42A80019C213 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EDFCB6222F42A80019C213 /* AppDelegate.swift */; };
@@ -19,7 +24,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3DB7DFB4223C707D004DCEBD /* HostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostViewController.swift; sourceTree = "<group>"; };
+		3D78229C22404B590061E286 /* DJTogether-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DJTogether-Bridging-Header.h"; sourceTree = "<group>"; };
+		3D78229F22405F810061E286 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpotifyiOS.framework; path = DJTogether/SpotifyiOS.framework; sourceTree = "<group>"; };
+		3D7822A1224068340061E286 /* SongTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTableViewCell.swift; sourceTree = "<group>"; };
+		3D7822A322406ED20061E286 /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		3D7822A522407C730061E286 /* PollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollViewController.swift; sourceTree = "<group>"; };
+		3D7822A7224087770061E286 /* HostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostViewController.swift; sourceTree = "<group>"; };
+		3DB7DFB4223C707D004DCEBD /* HostPollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostPollViewController.swift; sourceTree = "<group>"; };
 		3DB7DFB6223C7717004DCEBD /* GuestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestViewController.swift; sourceTree = "<group>"; };
 		3DB7DFB8223ED305004DCEBD /* SessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
 		50EDFCB3222F42A80019C213 /* DJTogether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DJTogether.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,17 +48,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D7822A022405F810061E286 /* SpotifyiOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D782299224047AD0061E286 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3D78229F22405F810061E286 /* SpotifyiOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		50EDFCAA222F42A80019C213 = {
 			isa = PBXGroup;
 			children = (
+				3D78229C22404B590061E286 /* DJTogether-Bridging-Header.h */,
 				50EDFCB5222F42A80019C213 /* DJTogether */,
 				50EDFCB4222F42A80019C213 /* Products */,
+				3D782299224047AD0061E286 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -65,9 +87,13 @@
 				50EDFCB6222F42A80019C213 /* AppDelegate.swift */,
 				50EDFCB8222F42A80019C213 /* ViewController.swift */,
 				50EDFCBA222F42A80019C213 /* Main.storyboard */,
+				3D7822A7224087770061E286 /* HostViewController.swift */,
+				3D7822A522407C730061E286 /* PollViewController.swift */,
+				3D7822A322406ED20061E286 /* Song.swift */,
+				3D7822A1224068340061E286 /* SongTableViewCell.swift */,
 				3DB7DFB8223ED305004DCEBD /* SessionModel.swift */,
 				3DB7DFB6223C7717004DCEBD /* GuestViewController.swift */,
-				3DB7DFB4223C707D004DCEBD /* HostViewController.swift */,
+				3DB7DFB4223C707D004DCEBD /* HostPollViewController.swift */,
 				50EDFCC0222F42A90019C213 /* Assets.xcassets */,
 				50EDFCC2222F42A90019C213 /* LaunchScreen.storyboard */,
 				50EDFCC5222F42A90019C213 /* Info.plist */,
@@ -108,6 +134,7 @@
 				TargetAttributes = {
 					50EDFCB2222F42A80019C213 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
 					};
 				};
 			};
@@ -148,10 +175,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DB7DFB7223C7717004DCEBD /* GuestViewController.swift in Sources */,
-				3DB7DFB5223C707D004DCEBD /* HostViewController.swift in Sources */,
+				3DB7DFB5223C707D004DCEBD /* HostPollViewController.swift in Sources */,
 				3DB7DFB9223ED305004DCEBD /* SessionModel.swift in Sources */,
+				3D7822A2224068340061E286 /* SongTableViewCell.swift in Sources */,
+				3D7822A422406ED20061E286 /* Song.swift in Sources */,
 				50EDFCB9222F42A80019C213 /* ViewController.swift in Sources */,
+				3D7822A8224087770061E286 /* HostViewController.swift in Sources */,
 				50EDFCB7222F42A80019C213 /* AppDelegate.swift in Sources */,
+				3D7822A622407C730061E286 /* PollViewController.swift in Sources */,
 				50EDFCBF222F42A80019C213 /* DJTogether.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -233,6 +264,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -287,6 +319,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -298,8 +331,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B47AVVU489;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DJTogether",
+				);
 				INFOPLIST_FILE = DJTogether/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -307,6 +345,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uw.ischool.info449.DJ.DJTogether;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DJTogether-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -316,8 +356,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B47AVVU489;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DJTogether",
+				);
 				INFOPLIST_FILE = DJTogether/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -325,6 +370,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uw.ischool.info449.DJ.DJTogether;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DJTogether-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
