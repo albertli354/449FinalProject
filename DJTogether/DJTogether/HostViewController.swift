@@ -9,7 +9,7 @@
 import UIKit
 import MultipeerConnectivity
 
-class HostViewController: UIViewController, MCSessionDelegate, SPTAppRemotePlayerStateDelegate, UITableViewDataSource, UITableViewDelegate {
+class HostViewController: UIViewController, MCSessionDelegate, UITableViewDataSource, UITableViewDelegate {
   
 
   let songs = [Song("Mr. Blue Sky", "spotify:track:2RlgNHKcydI9sayD2Df2xp", isSelected: false),
@@ -36,22 +36,19 @@ class HostViewController: UIViewController, MCSessionDelegate, SPTAppRemotePlaye
   
   func sendMessage() {
     if session.mcSession.connectedPeers.count > 0 {
-      if let message = messageField.text!.data(using: .utf8) {
+      // send list of songs
+      do {
+        let selectedSongs = songs.filter { return $0.isSelected }
+        let jsonData =  try JSONEncoder().encode(selectedSongs)
+//        let jsonData = try NSKeyedArchiver.archivedData(withRootObject: jsonArr, requiringSecureCoding: true)
         do {
-          try session.mcSession.send(message, toPeers: session.mcSession.connectedPeers, with: .reliable)
+          try session.mcSession.send(jsonData, toPeers: session.mcSession.connectedPeers, with: .reliable)
         } catch let error as NSError {
           let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
           ac.addAction(UIAlertAction(title: "OK", style: .default))
           present(ac, animated: true)
         }
-      }
-      // send list of songs
-      do {
-        let selectedSongs = songs.filter { return $0.isSelected }
-        let jsonArr =  try JSONEncoder().encode(songs)
-        
       } catch {}
-      }
     }
   }
   

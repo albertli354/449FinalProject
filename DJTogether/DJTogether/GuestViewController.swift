@@ -11,6 +11,7 @@ import MultipeerConnectivity
 
 class GuestViewController: UIViewController, MCSessionDelegate {
   
+  var songs : [Song] = []
   var session: Session!
   @IBOutlet weak var messageField: UILabel!
   
@@ -30,11 +31,21 @@ class GuestViewController: UIViewController, MCSessionDelegate {
   }
   
   func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-    if let message = String(data: data, encoding: .utf8) {
-      DispatchQueue.main.async { [unowned self] in
-        self.messageField.text = message
+    do {
+      if let songs: [Song] = try JSONDecoder().decode([Song].self, from: data) {
+        self.songs = songs
+        performSegue(withIdentifier: "guestToPoll", sender: self)
+      } else if let message = String(data: data, encoding: .utf8) {
+        DispatchQueue.main.async { [unowned self] in
+          self.messageField.text = message
+        }
       }
+    } catch let error as NSError {
+      let ac = UIAlertController(title: "Receive error", message: error.localizedDescription, preferredStyle: .alert)
+      ac.addAction(UIAlertAction(title: "OK", style: .default))
+      present(ac, animated: true)
     }
+    
   }
   
   func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -56,5 +67,18 @@ class GuestViewController: UIViewController, MCSessionDelegate {
         // Pass the selected object to the new view controller.
     }
     */
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    switch segue.identifier! {
+    case "guestToPoll":
+      let destination = segue.destination as! PollViewController
+      destination.songs = self.songs
+      NSLog("Segue to Question Page")
+    case "mainToGuest":
+      let destination = segue.destination as! GuestViewController
+      destination.session = session
+    default:
+      NSLog("Unknown segue identifier: \(segue.identifier!)")
+    }
+  }
 
 }
