@@ -82,6 +82,8 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
     tableView.allowsMultipleSelection = false
     tableView.dataSource = self
     tableView.delegate = self
+    
+    createPollButton.layer.cornerRadius = 10
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
