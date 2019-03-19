@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-let SpotifyClientID = "e860f5e2d489412b844dc84ca1f0bd86"
+let SpotifyClientID = "e56798d148b84dacbcf9b8c06413b975"
 let SpotifyRedirectURL = URL(string: "dj-together://spotify-login-callback")!
 
 @UIApplicationMain
