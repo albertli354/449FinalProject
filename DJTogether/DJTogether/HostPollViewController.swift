@@ -35,6 +35,8 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
     tableView.delegate = self
     sendButton.isHidden = false
     closePollButton.isHidden = true
+    sendButton.layer.cornerRadius = 10
+    closePollButton.layer.cornerRadius = 10
   }
   
   func sendPoll() {
