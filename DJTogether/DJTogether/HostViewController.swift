@@ -52,7 +52,7 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
                Song("Wham Bang Shang-A-Lang", "spotify:track:3qrEG6rQ9Qm72MNWeUKKiU"),
                Song("Surrender", "spotify:track:2ccUQnjjNWT0rsNnsBpsCA"),
                Song("Don't Stop Me Now - Remastered", "spotify:track:7hQJA50XrCWABAu5v6QZ4i"),
-               Song("Flash Light", "spotify:track:6Ie9yuocD61v7hrh02moc6"),
+               Song("Flashlight", "spotify:track:6Ie9yuocD61v7hrh02moc6"),
                Song("The Rubberband Man", "spotify:track:13Mzsb8VzRSZ5w3pM48cn6"),
                Song("Go All The Way", "spotify:track:75GQIYnRaBg7ndHxhfYuQy"),
                Song("Hooked On A Feeling", "spotify:track:6Ac4NVYYl2U73QiTt11ZKd"),
