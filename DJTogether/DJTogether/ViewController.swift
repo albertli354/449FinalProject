@@ -21,26 +21,17 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
             let tokenRefreshURL = URL(string: "https://djtogether.herokuapp.com/api/refresh_token") {
             self.configuration.tokenSwapURL = tokenSwapURL
             self.configuration.tokenRefreshURL = tokenRefreshURL
-            self.configuration.playURI = "spotify:track:2RlgNHKcydI9sayD2Df2xp"
+            self.configuration.playURI = ""
         }
         let manager = SPTSessionManager(configuration: self.configuration, delegate: self)
         return manager
     }()
     
-    var appRemote: SPTAppRemote {
-        get {
-            return AppDelegate.sharedInstance.appRemote
-        }
-    }
-    
-    /*
     lazy var appRemote: SPTAppRemote = {
         let appRemote = SPTAppRemote(configuration: configuration, logLevel: .debug)
         appRemote.delegate = self
         return appRemote
     }()
-    */
-    
     
     func sessionManager(manager: SPTSessionManager, didInitiate session: SPTSession) {
         self.appRemote.connectionParameters.accessToken = session.accessToken
@@ -56,12 +47,6 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
     }
     
     func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
-        self.appRemote.playerAPI?.delegate = self
-        self.appRemote.playerAPI?.subscribe(toPlayerState: { (result, error) in
-            if let error = error {
-                debugPrint(error.localizedDescription)
-            }
-        })
         print("connected")
     }
     
@@ -76,9 +61,6 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
         print("state changed")
     }
-    
-    
-    
     
     
   var session: Session!
@@ -123,16 +105,20 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
       NSLog("Not Connected: \(peerID.displayName)")
     }
   }
-  
-  @IBAction func button_pressed(_ sender: UIButton) {
-    switch sender {
-    case createPartyButton:
+    
+    func didTapCreateParty() {
         let scope: SPTScope = [.appRemoteControl, .playlistReadPrivate]
         if #available(iOS 11, *) {
             sessionManager.initiateSession(with: scope, options: .clientOnly)
         } else {
             sessionManager.initiateSession(with: scope, options: .clientOnly, presenting: self)
         }
+    }
+  
+  @IBAction func button_pressed(_ sender: UIButton) {
+    switch sender {
+    case createPartyButton:
+        didTapCreateParty()
       startHosting(action: UIAlertAction())
     case joinPartyButton:
       joinSession(action: UIAlertAction())

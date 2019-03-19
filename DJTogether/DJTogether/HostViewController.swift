@@ -16,29 +16,6 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 print(error.localizedDescription)
             }
         })
-        
-    }
-    
-    fileprivate func presentAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    func displayError(_ error: NSError?) {
-        if let error = error {
-            presentAlert(title: "Error", message: error.description)
-        }
-    }
-    
-    var defaultCallback: SPTAppRemoteCallback {
-        get {
-            return {[weak self] _, error in
-                if let error = error {
-                    self?.displayError(error as NSError)
-                }
-            }
-        }
     }
     
     var appRemote: SPTAppRemote {
@@ -46,7 +23,6 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return AppDelegate.sharedInstance.appRemote
         }
     }
-    
     fileprivate var lastPlayerState: SPTAppRemotePlayerState?
     func update(playerState: SPTAppRemotePlayerState) {
         lastPlayerState = playerState
@@ -54,7 +30,6 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
         update(playerState: playerState)
     }
-    
     
     
     
@@ -100,15 +75,14 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
   var session : Session!
     var selectedSong = Song("", "")
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    
-    self.appRemote.playerAPI?.delegate = self
-    self.appRemote.playerAPI?.subscribe(toPlayerState: { (result, error) in
-        if let error = error {
-            debugPrint(error.localizedDescription)
-        }
-    })
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.appRemote.playerAPI?.delegate = self
+        self.appRemote.playerAPI?.subscribe(toPlayerState: { (result, error) in
+            if let error = error {
+                debugPrint(error.localizedDescription)
+            }
+        })
 
     NSLog("Host view loaded")
     tableView.allowsSelection = true
