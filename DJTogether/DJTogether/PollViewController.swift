@@ -11,8 +11,10 @@ import UIKit
 class PollViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var submitButton: UIButton!
   
   var songs : [Song] = []
+  var session: Session!
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // Do any additional setup after loading the view.
       tableView.delegate = self
       tableView.dataSource = self
+      submitButton.isEnabled = false
     }
     
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -30,7 +33,34 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
     let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath)
     cell.textLabel?.text = songs[indexPath.row].title
     return cell
-  }    /*
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    NSLog("You selected cell #\(indexPath.row)!")
+    songs[indexPath.row].isSelected = true
+    submitButton.isEnabled = true
+  }
+  
+  func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    NSLog("You deselected cell #\(indexPath.row)!")
+    songs[indexPath.row].isSelected = false
+  }
+  
+  
+  @IBAction func submit(_ sender: UIButton) {
+    do {
+      var song : Song = songs.filter { return $0.isSelected }.first!
+      let data = ("Vote: " + song.title).data(using: .utf8)!
+      do {
+        try session.mcSession.send(data, toPeers: session.mcSession.connectedPeers, with: .reliable)
+      } catch let error as NSError {
+        let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+      }
+    } catch {}
+  }
+  /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

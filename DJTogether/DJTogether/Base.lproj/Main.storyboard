@@ -51,8 +51,8 @@
                     <connections>
                         <outlet property="createPartyButton" destination="ZqF-vL-0A3" id="NGk-SL-9Vb"/>
                         <outlet property="joinPartyButton" destination="EM0-Gq-lAq" id="myi-yO-Wcw"/>
-                        <segue destination="Lwv-rC-J2b" kind="presentation" identifier="mainToHost" id="g4A-3y-ArF"/>
                         <segue destination="UBM-fQ-dJn" kind="presentation" identifier="mainToGuest" id="JTB-4b-bds"/>
+                        <segue destination="IxZ-0D-5cj" kind="presentation" identifier="mainToHost" id="Sbo-yt-axE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -60,9 +60,27 @@
             <point key="canvasLocation" x="-14" y="134"/>
         </scene>
         <!--Host View Controller-->
+        <scene sceneID="DtU-nO-0Gd">
+            <objects>
+                <viewController id="IxZ-0D-5cj" customClass="HostViewController" customModule="DJTogether" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xWi-0g-vuM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="e6S-RE-pjB"/>
+                    </view>
+                    <connections>
+                        <segue destination="Lwv-rC-J2b" kind="presentation" identifier="hostToPoll" id="61B-gS-95I"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fpi-j4-3Sk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="974" y="134"/>
+        </scene>
+        <!--Host Poll View Controller-->
         <scene sceneID="XA3-uL-Tyv">
             <objects>
-                <viewController storyboardIdentifier="hostViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Lwv-rC-J2b" customClass="HostViewController" customModule="DJTogether" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="hostViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Lwv-rC-J2b" customClass="HostPollViewController" customModule="DJTogether" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Qid-ug-0Iz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -140,7 +158,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kZ8-jY-tJs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="863.20000000000005" y="133.5832083958021"/>
+            <point key="canvasLocation" x="1775" y="134"/>
         </scene>
         <!--Guest View Controller-->
         <scene sceneID="f1v-ES-kUq">
@@ -215,11 +233,20 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3R3-Ut-MeW">
+                                <rect key="frame" x="16" y="579" width="343" height="68"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Submit Vote"/>
+                                <connections>
+                                    <action selector="submit:" destination="0v5-RV-LIU" eventType="touchUpInside" id="xvD-gM-wRg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Qhw-h8-ZwA"/>
                     </view>
                     <connections>
+                        <outlet property="submitButton" destination="3R3-Ut-MeW" id="CTH-xL-21J"/>
                         <outlet property="tableView" destination="oLi-Bi-mKl" id="ZZr-Og-mlp"/>
                     </connections>
                 </viewController>
