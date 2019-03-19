@@ -9,6 +9,8 @@
 import UIKit
 
 class HostViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SPTAppRemotePlayerStateDelegate {
+  var session : Session!
+  var selectedSong = Song("", "")
 
     @IBAction func pauseButtonClicked(_ sender: Any) {
         self.appRemote.playerAPI?.play("spotify:track:2gQYziDV5cSTRSqr6akzi5", callback: {(result, error) in
@@ -72,8 +74,7 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
                Song("I Will Survive - 1981 Re-recording", "spotify:track:7DD1ojeTUwnW65g5QuZw7X"),
                Song("Funk Funk", "spotify:track:2ettf7qywhnJuavMxZOsWh"),
                Song("Joy To The World", "spotify:track:2ymeOsYijJz09LfKw3yM2x")]
-  var session : Session!
-    var selectedSong = Song("", "")
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,17 +108,17 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
   }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        NSLog("You selected cell #\(indexPath.row)!")
-        selectedSong = songs[indexPath.row]
-        for song in songs {
-            if (selectedSong.title == song.title) {
-                self.appRemote.playerAPI?.play(song.URI, callback: { (result, error) in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    }
-                })
-            }
+      NSLog("You selected cell #\(indexPath.row)!")
+      selectedSong = songs[indexPath.row]
+      self.appRemote.playerAPI?.play(selectedSong.URI, callback: { (result, error) in
+        if let error = error {
+            print(error.localizedDescription)
         }
+      })
+      do {
+        let song = try JSONEncoder().encode(selectedSong)
+        try session.mcSession.send(song, toPeers: session.mcSession.connectedPeers, with: .reliable)
+      } catch {}
     }
 
   @IBAction func buttonPressed(_ sender: UIButton) {
