@@ -23,7 +23,7 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // Do any additional setup after loading the view.
     NSLog("Host view loaded")
     tableView.allowsSelection = true
-    tableView.allowsMultipleSelection = true
+    tableView.allowsMultipleSelection = false
     tableView.dataSource = self
     tableView.delegate = self
   }

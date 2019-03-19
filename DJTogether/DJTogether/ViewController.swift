@@ -26,8 +26,6 @@ class ViewController: UIViewController, MCSessionDelegate, MCBrowserViewControll
   func startHosting(action: UIAlertAction!) {
     session.mcAdvertiserAssistant.start()
     session.hosting = true
-    let requestedScopes: SPTScope = [.appRemoteControl]
-    AppDelegate.sharedInstance.sessionManager.initiateSession(with: requestedScopes, options: .default)
     performSegue(withIdentifier: "mainToHost", sender: self)
     
   }

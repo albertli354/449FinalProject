@@ -10,54 +10,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DJTogether/ViewController.swift"
-            timestampString = "574659865.452206"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "startHosting(action:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "DJTogether.ViewController.startHosting(action: Swift.Optional&lt;__C.UIAlertAction&gt;) -&gt; ()"
-                  moduleName = "DJTogether"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/cse-loaner/Documents/IOS_Dev/449FinalProject/DJTogether/DJTogether/ViewController.swift"
-                  timestampString = "574387765.618549"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "31"
-                  endingLineNumber = "31"
-                  offsetFromSymbolStart = "493">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "DJTogether.ViewController.startHosting(action: Swift.Optional&lt;__C.UIAlertAction&gt;) -&gt; ()"
-                  moduleName = "DJTogether"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/cse-loaner/Documents/IOS_Dev/449FinalProject/DJTogether/DJTogether/ViewController.swift"
-                  timestampString = "574387765.631181"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "31"
-                  endingLineNumber = "31"
-                  offsetFromSymbolStart = "1032">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DJTogether/ViewController.swift"
             timestampString = "574659865.452414"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
@@ -255,8 +207,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "36"
             endingLineNumber = "36"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
+            landmarkName = "HostViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
