@@ -15,9 +15,9 @@ class GuestViewController: UIViewController, MCSessionDelegate {
   var session: Session!
   var song : Song?
   @IBOutlet weak var messageField: UILabel!
+  
   @IBOutlet weak var albumView: UIImageView!
   
-
   
   override func viewDidLoad() {
     super.viewDidLoad()

@@ -9,17 +9,37 @@
 import UIKit
 
 class HostViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SPTAppRemotePlayerStateDelegate {
+
   var session : Session!
   var selectedSong = Song("", "", "")
-
-    @IBAction func pauseButtonClicked(_ sender: Any) {
-        self.appRemote.playerAPI?.play("spotify:track:2gQYziDV5cSTRSqr6akzi5", callback: {(result, error) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        })
+    @IBOutlet weak var pauseButton: UIButton!
+    @IBOutlet weak var playButton: UIButton!
+    
+    @IBAction func playButtonPressed(_ sender: Any) {
+        playButton.isHidden = true
+        pauseButton.isHidden = false
+        appRemote.playerAPI?.resume(nil)
     }
     
+    @IBAction func pauseButtonPressed(_ sender: Any) {
+        playButton.isHidden = false
+        pauseButton.isHidden = true
+        appRemote.playerAPI?.pause(nil)
+    }
+    
+    
+    @IBAction func previousButtonClick(_ sender: Any) {
+        playButton.isHidden = true
+        pauseButton.isHidden = false
+        appRemote.playerAPI?.skip(toPrevious: nil)
+    }
+    
+    @IBAction func nextButtonClick(_ sender: Any) {
+        playButton.isHidden = true
+        pauseButton.isHidden = false
+        appRemote.playerAPI?.skip(toNext: nil)
+    }
+
     var appRemote: SPTAppRemote {
         get {
             return AppDelegate.sharedInstance.appRemote
@@ -28,12 +48,17 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
     fileprivate var lastPlayerState: SPTAppRemotePlayerState?
     func update(playerState: SPTAppRemotePlayerState) {
         lastPlayerState = playerState
+        /*
+        if playerState.isPaused {
+            pauseOrPlayButton.setBackgroundImage(UIImage(named: "play"), for: .normal)
+        } else {
+            pauseOrPlayButton.setBackgroundImage(UIImage(named: "pause"), for: .normal)
+        }
+        */
     }
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
         update(playerState: playerState)
     }
-    
-    
     
     
     
@@ -85,6 +110,8 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 debugPrint(error.localizedDescription)
             }
         })
+        
+        appRemote.playerAPI?.pause(nil)
 
     NSLog("Host view loaded")
     tableView.allowsSelection = true
@@ -109,13 +136,15 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
   }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      NSLog("You selected cell #\(indexPath.row)!")
-      selectedSong = songs[indexPath.row]
-      self.appRemote.playerAPI?.play(selectedSong.URI, callback: { (result, error) in
-        if let error = error {
-            print(error.localizedDescription)
-        }
-      })
+        NSLog("You selected cell #\(indexPath.row)!")
+        selectedSong = songs[indexPath.row]
+        playButton.isHidden = true
+        pauseButton.isHidden = false
+        self.appRemote.playerAPI?.play(selectedSong.URI, callback: { (result, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        })
       do {
         let song = try JSONEncoder().encode(selectedSong)
         try session.mcSession.send(song, toPeers: session.mcSession.connectedPeers, with: .reliable)
@@ -143,17 +172,5 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
       NSLog("Unknown segue identifier: \(segue.identifier!)")
     }
   }
-  
-  
-  
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
