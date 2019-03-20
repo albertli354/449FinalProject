@@ -126,6 +126,8 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
             case "hostToMain":
               session.mcSession.disconnect()
               session.isHost = false
+              session.mcAdvertiserAssistant.stop()
+              
             default:
                 NSLog("Unknown segue identifier: \(segue.identifier!)")
         }

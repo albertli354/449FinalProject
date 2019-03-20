@@ -24,8 +24,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // Do any additional setup after loading the view.
       tableView.delegate = self
       tableView.dataSource = self
-      submitButton.isEnabled = false
-        submitButton.layer.cornerRadius = 10
+      submitButton.layer.cornerRadius = 10
     }
     
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -75,6 +74,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
       let destination = segue.destination as! GuestViewController
       destination.session = self.session
       destination.song = self.currentSong
+      submitButton.isEnabled = false
       NSLog("Segue to Guest Page")
     default:
       NSLog("Unknown segue identifier: \(segue.identifier!)")
