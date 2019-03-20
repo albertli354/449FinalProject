@@ -168,6 +168,9 @@ class HostViewController: UIViewController, UITableViewDataSource, UITableViewDe
       destination.session = session
       destination.songs = songs
       NSLog("Segue to Host Poll page")
+    case "hostToMain":
+      session.mcSession.disconnect()
+      session.isHost = false
     default:
       NSLog("Unknown segue identifier: \(segue.identifier!)")
     }

@@ -16,6 +16,7 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
   var session: Session!
   var results = false
 
+  @IBOutlet weak var backButton: UIBarButtonItem!
   @IBOutlet weak var sendButton: UIButton!
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var closePollButton: UIButton!
@@ -134,6 +135,9 @@ class HostPollViewController: UIViewController, MCSessionDelegate, UITableViewDa
     songs[indexPath.row].isSelected = false
   }
 
+  @IBAction func backButtonPressed(_ sender: Any) {
+    performSegue(withIdentifier: "pollToHost", sender: self)
+  }
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     switch segue.identifier! {
     case "pollToHost":

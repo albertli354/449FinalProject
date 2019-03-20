@@ -66,6 +66,9 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
     performSegue(withIdentifier: "pollToGuest", sender: self)
   }
 
+  @IBAction func backPressed(_ sender: Any) {
+    performSegue(withIdentifier: "pollToGuest", sender: self)
+  }
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     switch segue.identifier! {
     case "pollToGuest":

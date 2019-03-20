@@ -78,6 +78,9 @@ class GuestViewController: UIViewController, MCSessionDelegate {
       destination.songs = self.songs
       destination.currentSong = self.song
       NSLog("Segue to Guest Poll Page")
+    case "guestToMain":
+      session.mcSession.disconnect()
+      
     default:
       NSLog("Unknown segue identifier: \(segue.identifier!)")
     }
